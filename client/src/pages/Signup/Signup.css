@@ -1,0 +1,31 @@
+form.signup {
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 20px;
+  background: var(--secondary);
+  color: white;
+  border-radius: 4px;
+}
+
+form.signup input {
+  color: white;
+  border: 1px solid white;
+  background-color: var(--secondary);
+}
+
+form.signup input {
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.aszf {
+  color: rgb(100, 100, 100);
+}

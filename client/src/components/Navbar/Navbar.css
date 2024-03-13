@@ -1,0 +1,202 @@
+nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+nav a {
+  margin-left: 10px;
+  mix-blend-mode: hard-light;
+}
+
+nav a h1 {
+  margin: 0;
+  transition: all 0.3s ease-out; 
+  position: relative;
+  color: #3d3d3d;
+}
+
+nav a h1:hover {
+  color: #fff;
+}
+
+nav a h1::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+
+  background-color: #fff;
+  transition: width 0.3s ease-out;
+}
+
+nav a h1:hover::before {
+  width: 100%;
+}
+
+nav a h1:after {
+  color: white;
+}
+
+nav img {
+  width: 50px;
+  margin-left: 10px;
+}
+
+nav .profile {
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+nav .dropdown-menu {
+  border: 1px solid black;
+  padding: 5px;
+  border-radius: 6px;
+  width: max-content;
+  background-color: var(--secondary);
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 100%;
+  right: 0;
+  z-index: 1;
+}
+
+nav .dropdown-menu div {
+  display: flex;
+  flex-direction: column;
+}
+
+nav .dropdown-menu div a:hover {
+  background-color: #343854;
+}
+
+nav .dropdown-menu div p {
+  margin: 0;
+  margin-top: 20px;
+  border-bottom: 1px solid black;
+  border-bottom-style: dashed;
+  font-size: 15px;
+  color: rgb(114, 114, 114);
+}
+
+nav .dropdown-menu div a {
+  color: #fff;
+  margin-left: 0;
+}
+
+nav .dropdown-menu #signout {
+  background-color: var(--secondary);
+  border: 1px solid var(--error);
+  color: var(--error);
+  transition: all 0.3s ease-out; 
+}
+
+nav .dropdown-menu #signout:hover {
+  background-color: var(--error);
+  color: #fff;
+}
+
+.arrow {
+  height: 10px;
+  width: 10px;
+  border: solid black;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.down {
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
+.up {
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+}
+
+nav button {
+  background: var(--primary);
+  color: #fff;
+  border: 2px solid var(--primary);
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-family: "Poppins";
+  cursor: pointer;
+  font-size: 1em;
+}
+
+nav .signupContainer {
+  display: flex;
+}
+
+nav .signupContainer .register {
+  padding: 6px 10px;
+  border: 2px solid var(--primary);
+  transition: all 0.3s ease-out;
+}
+
+nav .signupContainer .register:hover {
+  padding: 6px 18px;
+  background-color: transparent;
+  color: #fff;
+  border-radius: 4px;
+  border: 2px solid var(--primary);
+}
+
+nav .login {
+  color: #fff;
+  height: max-content;
+  text-decoration: underline;
+  margin: 0;
+  margin-top: auto;
+}
+
+.header {
+  background: rgb(0,0,0);
+background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(61,61,61,1) 100%);
+}
+
+#transparent-header{
+  background: rgba(66, 66, 66, 0.5);
+
+}
+
+header .container {
+  margin: 0 auto;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid black;
+}
+
+header a {
+  color: #333;
+  text-decoration: none; 
+  z-index: 1;
+}
+
+header #main{
+  color: white;
+}
+
+header #main .logo {
+  width: 60px;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo-container img {
+  height: 70px
+}
+

@@ -1,0 +1,175 @@
+.addProgram-container h2{
+    border-bottom  : 1px solid var(--secondary);
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--primary);
+    height: 10vh;
+    margin: 0;
+    }
+    
+    form.addProgram {
+      font-size: 20px;
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      background-color: #cbe9ff;
+    }
+    
+    form.addProgram div {
+      color: white;
+      border-radius: 30px;
+      margin: 10px;
+      background-color: var(--secondary);
+      border: 1.8px solid black;
+    }
+    
+    
+    form.addProgram input, form.addProgram textarea, form.addProgram select {
+      border-radius: 20px;
+      background-color: rgb(230, 230, 230);
+    }
+    
+    form.addProgram select {
+      padding: 10px;
+      margin-bottom: 5px;
+    }
+    
+    form.addProgram #name {
+      
+      grid-column: span 3;
+      align-items: center;
+      display: flex;
+      justify-content: center;
+    }
+    
+    form.addProgram #name input {
+      width: 10vw;
+      height: 3vh;
+    }
+    
+    
+    form.addProgram #description {
+      grid-column: span 3;
+      resize: none;
+      align-items: center;
+      display: flex;
+      justify-content: center;
+    }
+    
+    form.addProgram #description textarea{
+      width: 30vw;
+      height: 10vh;
+      margin: 15px;
+      padding: 5px;
+    }
+    
+    form.addProgram #price {
+      display: flex;
+      flex-direction: column;
+      grid-column: span 2;
+      align-items: center;
+      display: flex;
+      justify-content: center;
+    }
+    
+    form.addProgram #img {
+      display: flex;
+      flex-direction: column;
+      grid-column: span 2;
+      align-items: center;
+      display: flex;
+      justify-content: center;
+    }
+    
+    form.addProgram #img input[type = "file"]{
+      border-radius: 4px;
+      background-color: transparent;
+    }
+    
+    form.addProgram #img input::file-selector-button{
+        background: var(--primary);
+        border: 0;
+        color: #fff;
+        padding: 10px;
+        font-family: "Poppins";
+        border-radius: 4px;
+        transition: all 0.3s ease-out; /* Átmenet minden tulajdonságra */
+        cursor: pointer;
+    
+    }
+    
+    form.addProgram #img input::file-selector-button:hover{
+      background-color: transparent;
+      color: var(--primary);
+      border-radius: 30px;
+      border: 2px solid var(--primary);
+    }
+    
+    
+    form.addProgram #persons{
+      display: flex;
+      flex-direction: column;
+      grid-column: span 2;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    form.addProgram #persons #max {
+      margin-bottom: 15px;
+    }
+    
+    form.addProgram #location{
+      display: flex;
+      flex-direction: column;
+      grid-column: span 3;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    form.addProgram #themes{
+      display: flex;
+      flex-direction: column;
+      grid-column: span 3;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    form.addProgram #addedHours,form.addProgram #themes div {
+      border: none;
+    }
+    
+    form.addProgram #themes select{
+      width: 25%;
+      height: 25vh;
+    }
+    
+    form.addProgram #themes div{
+      display: flex;
+    }
+    
+    form.addProgram #date{
+      display: flex;
+      flex-direction: row;
+      grid-column: span 6;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    form.addProgram #date #addedHours p{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    form.addProgram #submitButton {
+      display: flex;
+      grid-column: span 6;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    form.addProgram #submitButton button{
+      width: 20vw;
+    }

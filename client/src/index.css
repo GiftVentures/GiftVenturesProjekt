@@ -1,0 +1,66 @@
+/* google font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800&family=VT323&display=swap');
+
+:root {
+  --primary: #7AB6DA;
+  --secondary: #1f2132;
+  --bg: #2c3047;
+  --error: #e7195a;
+}
+
+body {
+  background: #f1f1f1;
+  margin: 0;
+  font-family: "Poppins";
+  user-select: none
+}
+
+.loading {
+  cursor: progress;
+}
+
+button:disabled {
+  background-color: grey;
+}
+
+label,
+input {
+  display: block;
+}
+
+form button {
+  background: var(--primary);
+  border: 0;
+  color: #fff;
+  padding: 10px;
+  font-family: "Poppins";
+  border-radius: 4px;
+  transition: all 0.3s ease-out;
+  /* Átmenet minden tulajdonságra */
+  cursor: pointer;
+}
+
+form button:hover {
+  background-color: transparent;
+  color: var(--primary);
+  border-radius: 30px;
+  border: 2px solid var(--primary);
+}
+
+.success {
+  padding: 10px;
+  background: #ffefef;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  border-radius: 4px;
+  margin: 20px 0;
+}
+
+.error {
+  text-align: center;
+  padding: 10px;
+  background: #ffefef;
+  border: 1px solid var(--error);
+  color: var(--error);
+  border-radius: 4px;
+}

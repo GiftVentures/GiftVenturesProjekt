@@ -1,0 +1,118 @@
+.profile-details {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 20px;
+    background: var(--secondary);
+    color: white;
+  }  
+
+.profile-container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .profile-header {
+    margin-bottom: 20px;
+  }
+  
+  .profile-header h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .profile-details {
+    margin-bottom: 20px;
+  }
+  
+  .profile-details table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .profile-details table td {
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .profile-details table tr:last-child td {
+    border-bottom: none;
+  }
+  
+  .profile-details table td:first-child {
+    font-weight: bold;
+  }
+  
+  .profile-buttons {
+    margin-top: 20px;
+  }
+  
+  .programs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-gap: 20px;
+  }
+  
+  .program {
+    border: 1px solid #ccc;
+  }
+  
+  .program:hover {
+    border-color: #007bff;
+  }
+  
+  .program h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .program img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+  }
+  
+  .programDetails {
+    font-size: 14px;
+  }
+  
+  .programDetails div {
+    margin-bottom: 5px;
+  }
+  
+  .programDetails p {
+    margin: 0;
+  }
+  
+  .programDetails p:first-child {
+    font-weight: bold;
+  }
+  
+  h2 {
+    color: #fff;
+  }
+
+  td {
+    color: #fff;
+  }
+  
+  button{
+    background: var(--primary);
+    border: 0;
+    color: #fff;
+    padding: 10px;
+    font-family: "Poppins";
+    border-radius: 4px;
+    transition: all 0.3s ease-out;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+
+  button:hover {
+    background-color: transparent;
+    color: var(--primary);
+    border-radius: 30px;
+    border: 2px solid var(--primary);
+  }
