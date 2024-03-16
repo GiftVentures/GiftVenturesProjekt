@@ -107,5 +107,33 @@ const AddProgram = async (req, res) => {
       res.status(500).json("Belső szerverhiba történt");
     }
   };
+
+  const UpdateProgram = async (req, res) => {
+    const { name, description, img, price, persons, location, theme, date } = req.body;
+    const programId = req.params.programId;
+    try {
+      const program = await Program.findByIdAndUpdate(programId, {
+        name: name,
+        description: description,
+        img: img,
+        price: price,
+        persons: persons,
+        location: location,
+        theme: theme,
+        date: date
+      });
+      if (!program) {
+        return res.status(404).json("A program nem található");
+      }
+      
+      const updatedProgram = await program.save();
+      if(updatedProgram){
+        res.status(200).json(updatedProgram);
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json("Belső szerverhiba történt");
+    } 
+  };
   
-  module.exports = { AddProgram, DeleteProgram, getAllThemes, uploadImage, getAllPrograms, getOneProgram };
+  module.exports = { AddProgram, DeleteProgram, getAllThemes, uploadImage, getAllPrograms, getOneProgram, UpdateProgram};

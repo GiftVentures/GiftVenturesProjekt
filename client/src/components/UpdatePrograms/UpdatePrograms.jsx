@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { useAuthContext } from "../../../hooks/useAuthContext";
-import jsonData from "../../../data/megyek.json";
-import "./AddProgram.css";
-
-const AddProgram = () => {
+import React, { useState, useEffect } from "react";
+import { useAuthContext } from "../../hooks/useAuthContext";
+import jsonData from "../../data/megyek.json";
+import "./UpdatePrograms.css";
+const UpdatePrograms = ({ programData }) => {
   const [existingThemes, setExistingThemes] = useState([]);
   const [chosenThemes, setChosenThemes] = useState([]);
   const [customTheme, setCustomTheme] = useState("");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [imageFile, setImageFile] = useState({});
+  const [image, setImage] = useState({});
   const [isUploading, setIsUploading] = useState(false);
   const [price, setPrice] = useState(0);
   const [minPersons, setMinPersons] = useState(0);
@@ -40,6 +40,7 @@ const AddProgram = () => {
     const objectUrl = URL.createObjectURL(selectedFile);
     setPreview(objectUrl);
 
+    // free memory when ever this component is unmounted
     return () => URL.revokeObjectURL(objectUrl);
   }, [selectedFile]);
 
@@ -59,9 +60,12 @@ const AddProgram = () => {
 
   const handleCountySelection = (selectedCounty) => {
     setCounty(selectedCounty);
-
+    setCity("");
+    setCities([]); // Új megye kiválasztásakor törlünk minden várost
     const citiesOfSelectedCounty = jsonData.megyek[selectedCounty].telepulesek;
+    console.log(citiesOfSelectedCounty);
     setCities(citiesOfSelectedCounty);
+    console.log(cities);
   };
 
   useEffect(() => {
@@ -72,12 +76,16 @@ const AddProgram = () => {
         },
       });
       const json = await response.json();
-      setExistingThemes(json);
+      // Szűrjük ki azokat a témákat, amelyek még nincsenek hozzáadva a programhoz
+      const filteredExistingThemes = json.filter(
+        (t) => !programData.theme.includes(t)
+      );
+      setExistingThemes(filteredExistingThemes);
     };
     if (user) {
       fetchData();
     }
-  }, [user]);
+  }, [user, programData]);
 
   const handleAddDate = () => {
     if (selectedDate && selectedHour) {
@@ -117,72 +125,59 @@ const AddProgram = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (
-      !name ||
-      !description ||
-      !imageFile ||
-      !price ||
-      !minPersons ||
-      !maxPersons ||
-      !county ||
-      !city ||
-      !address ||
-      theme.length === 0 ||
-      date.length === 0
-    ) {
-      setDisplayedError("Minden mező kitöltése kötelező!");
-      return;
-    }
-
+  
     try {
       setIsUploading(true);
-      const formData = new FormData();
-      formData.append("image", imageFile);
-
+      let uploadedImage = {}; // Tartani fogjuk a feltöltött kép adatait
+  
+      if (selectedFile) {
+        const formData = new FormData();
+        formData.append("image", imageFile);
+  
+        const response = await fetch(
+          "http://localhost:3500/api/program/img/upload",
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
+            body: formData,
+          }
+        );
+  
+        if (response.ok) {
+          uploadedImage = await response.json(); // A feltöltött kép adatait itt tároljuk el
+        }
+      }
+  
+      const imageData = Object.keys(uploadedImage).length > 0 ? {
+        id: uploadedImage.asset_id,
+        url: uploadedImage.url,
+      } : programData.img; // Ha nincs új feltöltött kép, akkor a régi képet használjuk
+  
       const response = await fetch(
-        "http://localhost:3500/api/program/img/upload",
+        `http://localhost:3500/api/program/update/${programData._id}`,
         {
           method: "POST",
           headers: {
+            "Content-Type": "application/json",
             Authorization: `Bearer ${user.token}`,
           },
-          body: formData,
+          body: JSON.stringify({
+            name,
+            description,
+            img: imageData,
+            price,
+            persons: { min: minPersons, max: maxPersons },
+            location: { county, city, address },
+            theme,
+            date,
+          }),
         }
       );
-
-      if (response.ok) {
-        const image = await response.json();
-        try {
-          const response = await fetch(
-            "http://localhost:3500/api/program/add",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${user.token}`,
-              },
-              body: JSON.stringify({
-                name,
-                description,
-                img: {
-                  id: image.asset_id,
-                  url: image.url,
-                },
-                price,
-                persons: { min: minPersons, max: maxPersons },
-                location: { county, city, address },
-                theme,
-                date,
-              }),
-            }
-          );
-        } catch (error) {
-          console.error("Error updating user:", error);
-        }
-      }
+      console.log(response.json());
     } catch (error) {
-      console.log(error);
+      console.error("Error updating program:", error);
     } finally {
       setChosenThemes([]);
       setCustomTheme("");
@@ -209,10 +204,13 @@ const AddProgram = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImageFile(file);
+
     if (!e.target.files || e.target.files.length === 0) {
       setSelectedFile(undefined);
       return;
     }
+
+    // I've kept this example simple by using the first image instead of multiple
     setSelectedFile(file);
   };
 
@@ -234,10 +232,27 @@ const AddProgram = () => {
     setDate(updatedDates);
   };
 
+  useEffect(() => {
+    console.log(programData);
+
+    setName(programData.name);
+    setDescription(programData.description);
+    setPrice(programData.price);
+    setMinPersons(programData.persons.min);
+    setMaxPersons(programData.persons.max);
+    handleCountySelection(programData.location.county);
+    handleCitySelection(programData.location.city);
+    setAddress(programData.location.address);
+    setTheme(programData.theme);
+    setPreview(programData.img.url);
+    setDate(programData.date);
+    setImage(programData.img)
+  }, [programData]);
+
   return (
     <div className="addProgram-container">
       <div className={isUploading ? "loading" : "notLoading"}>
-        <h2>Program felvétele</h2>
+        <h2>Program szerkesztése</h2>
         <form className="addProgram" onSubmit={handleSubmit}>
           <div id="name">
             <label htmlFor="name">Név: &nbsp;</label>
@@ -262,7 +277,7 @@ const AddProgram = () => {
           <div id="img">
             <label htmlFor="img">
               <h3>Kép:</h3>
-              {selectedFile && <img src={preview} />}
+              {preview && <img src={preview} />}
             </label>
             <input type="file" id="img" onChange={handleImageChange} />
           </div>
@@ -351,7 +366,9 @@ const AddProgram = () => {
             <div>
               {theme.map((element, index, array) => (
                 <React.Fragment key={index}>
-                  <button onClick={() => removeTheme(element)}>x</button>
+                  <button type="button" onClick={() => removeTheme(element)}>
+                    x
+                  </button>
                   <span>{element}</span>
                   {index !== array.length - 1 && <span>,&nbsp;</span>}
                 </React.Fragment>
@@ -398,8 +415,7 @@ const AddProgram = () => {
               value={selectedDate}
               onChange={(e) => setSelectedDate(e.target.value)}
             />
-
-            {selectedDate ? (
+            {selectedDate && (
               <>
                 <label htmlFor="hours"></label>
                 <input
@@ -414,34 +430,35 @@ const AddProgram = () => {
                 >
                   Időpont hozzáadása
                 </button>
-                <div id="addedHours">
-                  <p>Időpontok hozzáadva:</p>
-                  {date.map((dateItem, dateIndex) => (
-                    <div key={dateItem.day}>
-                      <p>
-                        {dateItem.day}:&nbsp;
-                        {dateItem.hours.map((hour, hourIndex) => (
-                          <React.Fragment key={hour}>
-                            {hour}
-                            <button
-                              type="button"
-                              onClick={() => removeHour(dateIndex, hourIndex)}
-                            >
-                              x
-                            </button>
-                            {hourIndex !== dateItem.hours.length - 1 && ", "}
-                          </React.Fragment>
-                        ))}
-                      </p>
-                    </div>
-                  ))}
-                </div>
               </>
-            ) : null}
+            )}
+
+            <div id="addedHours">
+              <p>Időpontok hozzáadva:</p>
+              {date.map((dateItem, dateIndex) => (
+                <div key={dateItem.day}>
+                  <p>
+                    {dateItem.day}:&nbsp;
+                    {dateItem.hours.map((hour, hourIndex) => (
+                      <React.Fragment key={hour}>
+                        {hour}
+                        <button
+                          type="button"
+                          onClick={() => removeHour(dateIndex, hourIndex)}
+                        >
+                          x
+                        </button>
+                        {hourIndex !== dateItem.hours.length - 1 && ", "}
+                      </React.Fragment>
+                    ))}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
           <div id="submitButton">
             <button disabled={isUploading} type="submit">
-              Hozzáadás
+              Szerkesztés befejezése
             </button>
           </div>
         </form>
@@ -450,4 +467,5 @@ const AddProgram = () => {
     </div>
   );
 };
-export default AddProgram;
+
+export default UpdatePrograms;

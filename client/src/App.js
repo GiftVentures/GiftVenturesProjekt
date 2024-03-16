@@ -16,7 +16,7 @@ import Error404 from './pages/Error/Error404';
 import Programs from './pages/Programs/Programs';
 import Program from './pages/Program/Program';
 import ResetPasswordPage from './components/ResetPasswordPage/ResetPasswordPage';
-
+import UpdatePrograms from './components/UpdatePrograms/UpdatePrograms';
 
 
 function App() {
@@ -51,6 +51,7 @@ function App() {
             <Route path="/signup" element={user ? <Navigate to="/profile" /> : <Signup /> }/>
 
             <Route path="/addprogram" element={isAdmin ? <AddProgram /> : <Navigate to="/" /> }/>
+            
           </Routes>
       </BrowserRouter>
     </div>

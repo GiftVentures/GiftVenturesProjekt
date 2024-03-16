@@ -2,10 +2,25 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Loader from '../../components/Loader/Loader';
 import './Program.css'
+import { useAuthContext } from '../../hooks/useAuthContext'
+import { jwtDecode } from 'jwt-decode'
+import UpdatePrograms from '../../components/UpdatePrograms/UpdatePrograms';
 
 const Program = () => {
+  const [editing, setEditing] = useState(false)
   const { programId } = useParams();
   const [programData, setProgramData] = useState(null);
+
+  const { user } = useAuthContext()
+  const [isAdmin, setAdmin] = useState(false)
+
+  useEffect(() =>{
+    if (user){
+      const decodedToken=jwtDecode(user.token)
+      setAdmin(decodedToken.isAdmin)
+      console.log(isAdmin);
+    }
+  },[user])
 
   useEffect(() => {
     const fetchProgramData = async () => {
@@ -24,6 +39,18 @@ const Program = () => {
 
     fetchProgramData();
   }, [programId]);
+
+  if (editing){
+    return(
+      <div>
+      {programData ? (
+        <UpdatePrograms programData={programData} />
+      ) : (
+        <Loader />
+      )}
+    </div>
+    )
+  }
 
   return (
     <div>
@@ -52,7 +79,7 @@ const Program = () => {
                 <p>{programData.price} Ft/fő</p>
               </div>
             </div>
-            <button>Szerkesztés</button>
+            {isAdmin?<button onClick={() => setEditing(true)}>Szerkesztés</button>:null}
             <button>Törlés</button>
         </div>
       ) : (
