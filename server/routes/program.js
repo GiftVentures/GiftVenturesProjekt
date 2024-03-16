@@ -16,7 +16,7 @@ router.use(requireAuth)
 
 router.post("/add", AddProgram)
 router.post("/update/:programId", UpdateProgram)
-router.delete("/delete/:id", DeleteProgram)
+router.delete("/delete/:programId", DeleteProgram)
 
 
 router.post("/img/upload", upload.single('image'), uploadImage)

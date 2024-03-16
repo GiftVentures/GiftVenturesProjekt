@@ -262,7 +262,7 @@ const AddProgram = () => {
           <div id="img">
             <label htmlFor="img">
               <h3>Kép:</h3>
-              {selectedFile && <img src={preview} />}
+              {selectedFile && <img src={preview} className="imageUploader"/>}
             </label>
             <input type="file" id="img" onChange={handleImageChange} />
           </div>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import jsonData from "../../data/megyek.json";
 import "./UpdatePrograms.css";
-const UpdatePrograms = ({ programData }) => {
+const UpdatePrograms = ({ programData, onEditingReset }) => {
   const [existingThemes, setExistingThemes] = useState([]);
   const [chosenThemes, setChosenThemes] = useState([]);
   const [customTheme, setCustomTheme] = useState("");
@@ -179,21 +179,7 @@ const UpdatePrograms = ({ programData }) => {
     } catch (error) {
       console.error("Error updating program:", error);
     } finally {
-      setChosenThemes([]);
-      setCustomTheme("");
-      setName("");
-      setDescription("");
-      setImageFile({});
-      setPrice(0);
-      setMinPersons(0);
-      setMaxPersons(0);
-      setCounty("");
-      setCity("");
-      setAddress("");
-      setTheme([]);
-      setSelectedDate("");
-      setSelectedHour("");
-      setIsUploading(false);
+      onEditingReset();
     }
   };
 
@@ -277,7 +263,7 @@ const UpdatePrograms = ({ programData }) => {
           <div id="img">
             <label htmlFor="img">
               <h3>Kép:</h3>
-              {preview && <img src={preview} />}
+              {preview && <img src={preview} className="imageUploader"/>}
             </label>
             <input type="file" id="img" onChange={handleImageChange} />
           </div>

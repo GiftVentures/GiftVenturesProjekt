@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Loader from '../../components/Loader/Loader';
 import './Program.css'
 import { useAuthContext } from '../../hooks/useAuthContext'
@@ -7,6 +7,7 @@ import { jwtDecode } from 'jwt-decode'
 import UpdatePrograms from '../../components/UpdatePrograms/UpdatePrograms';
 
 const Program = () => {
+  const navigate = useNavigate()
   const [editing, setEditing] = useState(false)
   const { programId } = useParams();
   const [programData, setProgramData] = useState(null);
@@ -38,13 +39,34 @@ const Program = () => {
     };
 
     fetchProgramData();
-  }, [programId]);
+  }, [programId, editing]);
+
+  const handleDelete = async(id) => {
+    const response = await fetch (`http://localhost:3500/api/program/delete/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
+      }
+    })
+    if(response.ok){
+      navigate("/programs")
+    }
+  }
+
+  const handleEditButtonClick = () => {
+    setEditing(true);
+  };
+
+  const handleEditingReset = () => {
+    setEditing(false);
+  };
 
   if (editing){
     return(
       <div>
       {programData ? (
-        <UpdatePrograms programData={programData} />
+        <UpdatePrograms programData={programData} onEditingReset={handleEditingReset} />
       ) : (
         <Loader />
       )}
@@ -79,8 +101,8 @@ const Program = () => {
                 <p>{programData.price} Ft/fő</p>
               </div>
             </div>
-            {isAdmin?<button onClick={() => setEditing(true)}>Szerkesztés</button>:null}
-            <button>Törlés</button>
+            {isAdmin && <button onClick={handleEditButtonClick}>Szerkesztés</button>}
+            {isAdmin && <button onClick={()=>handleDelete(programId)}>Törlés</button>}
         </div>
       ) : (
         <Loader />

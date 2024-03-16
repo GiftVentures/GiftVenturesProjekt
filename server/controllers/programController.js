@@ -65,7 +65,7 @@ const AddProgram = async (req, res) => {
   };
 
   const DeleteProgram = async (req, res) => {
-    const programId = req.params.id;
+    const programId = req.params.programId;
     console.log("Received programId:", programId);
     try {
       const user = await User.findById(req.user._id);
